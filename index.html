@@ -1,0 +1,209 @@
+<html>
+<head>
+	<title>Plane Game</title>
+	
+<script type="text/javascript">
+	
+	var animate, left=0, left1=0, imgObj=null, imgObj1=null, imgObj2=null, element=null, right=0;
+
+	function init(){
+		element = document.getElementById("im");
+		imgObj = document.getElementById("enemy1");
+		imgObj1 = document.getElementById("enemy2");
+		imgObj2 = document.getElementById("enemy3");
+	 
+		imgObj.style.position= 'absolute';
+		imgObj.style.top = '0px';
+		imgObj.style.left = '740px';
+		
+		imgObj1.style.position= 'absolute';
+		imgObj1.style.top = '100px';
+		imgObj1.style.left = '650px';
+		
+		imgObj2.style.position= 'absolute';
+		imgObj2.style.top = '300px';
+		imgObj2.style.left = '420px';
+		
+		imgObj.style.visibility='visible';
+		imgObj1.style.visibility='visible';
+		imgObj2.style.visibility='visible';
+		moveLeft();
+	}
+	
+	function moveLeft(){
+		left1 = parseInt(imgObj.style.left, 10);
+		if (10 <= left1) {
+			imgObj.style.left = (left1 - 5) + 'px';
+			imgObj.style.visibility='visible';
+			
+		} 
+		else {
+			imgObj.style.top = '0px';
+			imgObj.style.left = '740px';
+			 
+		}
+		checkcollision();
+		animate = setTimeout(function(){moveLeft();},20); // call moveRight in 20msec
+	}
+	
+	function checkcollision(){
+			
+		element = document.getElementById("im");
+        var e1 = document.getElementById("enemy1");
+        var e2 = document.getElementById("enemy2");
+		var e3 = document.getElementById("enemy3");
+		
+		x = parseInt(element.offsetLeft);
+		y = parseInt(element.offsetTop);
+		
+		x1 = parseInt(e1.offsetLeft);
+		y1 = parseInt(e1.offsetTop);	 
+		
+        x2 = parseInt(e2.offsetLeft);
+		y2 = parseInt(e2.offsetTop);			 
+		
+        x3 = parseInt(e3.offsetLeft);
+		y3 = parseInt(e3.offsetTop);
+		
+		if(((x>= x1)&&(x <= (x1 +  e1.width))) && ((y>=y1) && (y  <= (y1 +  e1.height)))){
+			e1.width =0;
+			e1.height=0;
+			stop();
+			alert("GAME OVER!");
+		}
+		if(((x>= x2)&&(x <= (x2 + e2.width))) && ((y>=y2) && (y  <= (y2 +  e2.height)))){
+			e2.width =0;
+			e2.height=0;
+			stop();
+			alert("GAME OVER!");
+		}
+		if(((x>= x3)&&(x <= (x3 + e3.width)))&&((y>=y3) && (y  <= (y3 +  e3.height)))){
+			e3.width =0;
+			e3.height=0;
+			stop();
+			alert("GAME OVER!");
+		}	
+	}
+	
+	function stop(){
+	   clearTimeout(animate);
+	}
+	
+	function leftArrowPressed() {
+		element = document.getElementById("im");
+		var n = parseInt(element.style.left);
+		if (n > 0)
+		element.style.left = parseInt(element.style.left) - 10 + 'px';
+    }
+
+    function rightArrowPressed() {
+		element = document.getElementById("im");
+		var n = parseInt(element.style.left);
+		if (n < 700)
+			element.style.left = parseInt(element.style.left) + 10 + 'px';
+    }
+	
+	function upArrowPressed() {
+		element = document.getElementById("im");
+		var n = parseInt(element.style.top);
+		if (n > 0)
+			element.style.top = parseInt(element.style.top) - 10 + 'px';
+    }
+
+    function downArrowPressed() {
+        element = document.getElementById("im");
+		var n = parseInt(element.style.top);
+		if (n < 410)
+			element.style.top = parseInt(element.style.top) + 10 + 'px';
+    }
+
+    function moveSelection(event) {                    
+        switch (event.keyCode) {
+			case 37:
+				leftArrowPressed();
+				break;
+			case 39:
+                rightArrowPressed();
+				break;
+            case 38:
+                upArrowPressed();
+				break;
+			case 40:
+				downArrowPressed();
+				break;
+        }
+    };
+
+        function gameLoop(){
+            moveSelection();
+			setTimeout("gameLoop()",10);
+        }
+			
+		window.onload = function(){init();};
+		
+		
+	</script>
+</head>
+
+<style>
+
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 1000% 0; }
+}
+
+#animate-area	{ 
+	width: 800px; 
+	height: 450px; 
+	position: relative;
+	left: 283px;
+	background-image: url("bkgd.jpg");
+	background-repeat: repeat-x;
+
+	animation: animatedBackground 25s linear infinite;
+}
+
+</style>
+
+
+<body  align=center" onload="gameLoop();" onkeydown="moveSelection(event)" onkeyup="">
+
+	<h1 align=center><font color="Black" border-color="Red"> Plane Game </font></h1>
+	<br/><br/>
+	
+	<div id="animate-area"> 
+		<img src=crow.png id="enemy1"
+		style="width:60px;height:50px;top:100px;right:0px;z-index:1;"
+		/>
+		
+		<img src=crow.png id="enemy2"
+		style="width:60px;height:50px;"
+		/>
+		
+		<img src=crow.png id="enemy3"
+		style="width:60px;height:50px;"
+		/>
+		
+		<img id="im" src="jet.png" 
+		style="width:100px;height:40px;top:0px;left:0px;position:relative;"
+		/>
+		
+		 
+	</div>
+	
+	<!--
+	
+	<div class="arrow">
+	<img id="up1" onclick="changeImage1()" src="uparrow.png" height=40px width=75px/>
+	<br/>
+	<img id="dw1" onclick="changeImage2()" src="dwarrow.png" height=40px width=75px/>
+	</div>
+	
+	-->
+
+	
+	
+	
+</body>
+
+</html>
